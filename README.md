@@ -98,6 +98,11 @@ The demo only counts for B=2. That is, when I accounted for the median hyperplan
 
 The demo may crash if you place 8-10 points, as the memory may be overwhelmed. 
 
+# State of the Art
+
+Significant progress has been made in the past 30 years on the yolk problem. [4] Cites the 2-dimensinoal case for the yolk can be solved in O(n log n). This is done by exploiting relations of duality and the zones induced by the set of hyperplanes.
+
+
 # References
 
 [1] Craig Tovey, "A polynomial-time algorithm for computing the yolk in fixed dimension" in Mathematical Programming 57 March, 1992. pp.259-277.
@@ -105,4 +110,6 @@ The demo may crash if you place 8-10 points, as the memory may be overwhelmed.
 [2] Stephen Boyd, Lieven VAndenberghe, "Convex Optimization". Cambridge University Press. 2009. pp. 21-55.
 
 [3] Geoff Gordon, Ryan Tibshirani. "Karush-Kuhn-Tucker conditions". Optimization 1--725. Avaialble: https://www.cs.cmu.edu/~ggordon/10725-F12/slides/16-kkt.pdf
+
+[4] Timothy M. Chan, Sariel Har-Peled, Mitchell Jones. Optimal Algorithms for Geometric Centers and Depth May, 2021. Available: https://arxiv.org/pdf/1912.01639.pdf
 
