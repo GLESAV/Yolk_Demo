@@ -59,7 +59,7 @@ A great deal of Tovey's paper is its handling of the contraints involving the yo
 
 * This maximization can be adjusted to search through the exponentially large set of all median hyperplanes in refererence to the origin.
 
-* Despite there being an infinite number of median hyperplanes, each of them share identical sets of solutoins "which is only polynomially large".
+* Despite there being an infinite number of median hyperplanes, each of them share identical sets of solutions "which is only polynomially large".
 
 * This reduces the constraints to just one that is quadratic for which KKT conditions are applied.
 
