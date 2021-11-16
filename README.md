@@ -74,6 +74,7 @@ A great deal of Tovey's paper is its handling of the contraints involving the yo
 # Complexity in R^2
 
 *Theorem 1: The determining median hyperplanes suffice to determine the radius of the 0-centered yolk*
+
 *Corollary 1: The radius of r(x) of the x centered yolk can be determined in polynomial time O(n^(m+1) for any fixed dimension m*
 
 For the 2-dimensional case, finding the yolk can be done in O(n^3). This is because there are n choose 1 plus n choose 2 ways to select from median hyperplanes that are bounded by either 1 or 2 points in the set. This is O(n^2) Then, checking whether the hyperplane is median can be done in linear time for a total of O(n^3).
@@ -100,7 +101,7 @@ The demo may crash if you place 8-10 points, as the memory may be overwhelmed.
 
 # State of the Art
 
-Significant progress has been made in the past 30 years on the yolk problem. [4] Cites the 2-dimensinoal case for the yolk can be solved in O(n log n). This is done by exploiting relations of duality and the zones induced by the set of hyperplanes.
+Significant progress has been made in the past 30 years on the yolk problem. [4] Cites the 2-dimensional case for the yolk can be solved in O(n log n). This is done by exploiting relations of duality and the zones induced by the set of hyperplanes.
 
 
 # References
