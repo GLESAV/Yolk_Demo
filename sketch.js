@@ -1,6 +1,7 @@
 //Originally designed to run once all the way through
 //Needs to be improved such that you can go back and forth and not eat up memory (bc it re does whole routine each time its run)
 var state = 1;
+var lastState=1;
 var lines = [];
 var radiusIC = [];
 var inCenter = [];
@@ -13,7 +14,6 @@ var yolk;
 var instrText;
 var rButton, nButton, bButton;
 var isDrawn = false;
-var runOnce= false;
 var VSIZE = 500;
 var HSIZE = 500;
 var BKGRND = 100;
@@ -27,39 +27,42 @@ function setup() {
 function draw() {
   textSize(TEXTSIZE);  
   stroke("red");
-  if (!runOnce){
     switch(state) {
         case -1:
-          changeState();
+          //do nothing
           break;
         case 0:
-          instrText="<--Click again to start. Data points cleared."
+          instrText="Data points cleared."
           resetState();
           changeState();
           break;
       case 1:
           drawPoints();
-          instrText="Click on screen and draw points";
+          instrText="Click on screen and draw at least 3 points";
           break;
       case 2:
           drawPoints();
           allHype();
           instrText="Extremal hyperplanes B=2";
+          state=-1;
           break;
       case 3:
           drawPoints();
           medHype();
           instrText="Extremal MEDIAN hyperplanes B=2";
+          state=-1;
           break;
       case 4:
           drawPoints();
           allAbHype();
           instrText="Arbitrary extremal hyperplanes B=1";
+          state=-1;
           break;
       case 5:
           drawPoints();
           medAbHype();
           instrText="Arbitrary extremal MEDIAN hyperplanes B=1";
+          state=-1;
           break;  
       case 6:
           instrText="EMH B=1 in red and B=2 in blue"
@@ -69,40 +72,47 @@ function draw() {
           medHype();
           stroke("black");
           drawPoints();
+          state=-1;
           break;  
       case 7:
           instrText="For each 3-tuple of EMH, find incenter"
+          drawPoints();
           findInCenters();
           displaySingleInCenter();
+          state=-1;
           break;
       case 8:
           instrText="Within this set is the yolk center";
+          drawPoints();
           strokeWeight(0.5);
           stroke('red');
           medHype();
           drawInCenters();
+          state=-1;
           break;
       case 9:
           instrText="Yolk center is max distance between EMH and e in E"
+          drawPoints();
           findFurthestE();
           medHype();
-          strokeWeight(5);
+          strokeWeight(3);
           drawYolk();
+          state=-1;
           break;
       case 10:
-        instrText="Reset and try again!"
+          instrText="Click Next or Reset to retry"
+          drawPoints();
           strokeWeight(1);
           stroke('red');
           medAbHype();
           medHype();
-          strokeWeight(6);
+          strokeWeight(3);
           drawYolk();
+          state=-1;
           break;  
       default:
           instrTest= "Unknown error. Reset. Notify me at gs3018@nyu.edu if you'd like"
           break;
-  }
-    runOnce=true;
   }
     resetButton();
     nextButton();
@@ -140,7 +150,8 @@ function resetButton(){
 }
 function resetState(){
   clear();
-  state = -1;
+  state = 0;
+  lastState=0;
   setup();
   isDrawn = false;
   lines = [];
@@ -153,25 +164,34 @@ function resetState(){
   maxDist=0;
 }
 function backState(){
-  if (state>=0){
+  if (lastState>=0){
   clear();
-  state-=1;
+  lastState-=1;
+  state=lastState;
   isDrawn=false;
   }
 }
 function changeState(){
+  if((lastState === 1)&&(dPoints.length<3)){
+    return;
+  }
   clear();
-  state+=1;
+  lastState+=1;
+  state=lastState;
+  if (lastState>=11){
+    resetState();
+  }
   isDrawn=false;
   runOnce=false;
 }
 function mouseClicked(){
-  if ( (state === 1) && (mouseY>30 ) ){
+  if ( (state === 1) && (mouseY>30 ) && (mouseY<(VSIZE-70))){
     dPoints.push([mouseX,mouseY]);
   }
   runOnce=false;
 }
 function allHype(){
+    lines=[];
     for (let i=0;i<dPoints.length;i++){
         for (let j=0;j<dPoints.length &&i>j;j++){
           let x1=dPoints[i][0];
@@ -189,8 +209,8 @@ function allHype(){
       }
 }
 function medHype(){
-  if (medHype.length>0){//to patch bug
-      return;}
+  //clear each time.
+  medLines=[];
   for (let i=0;i<lines.length;i++){
     let above=2;
     let below=2;
@@ -215,6 +235,7 @@ function medHype(){
   }
 }
 function allAbHype(){
+  linesAb=[];
   for (let i=0;i<dPoints.length;i++){    
        for (let j=0; j<dPoints.length;++j){ //a little higher
           if (i!=j){
@@ -270,6 +291,7 @@ function allAbHype(){
 
 }
 function medAbHype(){
+  medLinesAb=[];
   for (let i=0;i<linesAb.length;++i){
           let above=1;
           let below=1;
@@ -294,6 +316,8 @@ function medAbHype(){
     }
 }
 function findInCenters(){
+  radiusIC=[];
+  inCenter=[];
   let count=0;
     for (let i=0;i<medLines.length-2;i++){
       for (let h=i+1;(h<medLines.length);h++){
@@ -399,6 +423,7 @@ function findFurthestE(){
              yolk=inCenter[i];
            }
        }
+
    }
 }
 function distLineE(line, point){
