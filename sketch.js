@@ -1,5 +1,3 @@
-//Originally designed to run once all the way through
-//Needs to be improved such that you can go back and forth and not eat up memory (bc it re does whole routine each time its run)
 var state = 1;
 var lastState=1;
 var lines = [];
@@ -28,10 +26,10 @@ function draw() {
   textSize(TEXTSIZE);  
   stroke("red");
     switch(state) {
-        case -1:
+      case -1:
           //do nothing
           break;
-        case 0:
+      case 0:
           instrText="Data points cleared."
           resetState();
           changeState();
@@ -113,7 +111,7 @@ function draw() {
       default:
           instrTest= "Unknown error. Reset. Notify me at gs3018@nyu.edu if you'd like"
           break;
-  }
+    }
     resetButton();
     nextButton();
     backButton();
@@ -165,14 +163,14 @@ function resetState(){
 }
 function backState(){
   if (lastState>=0){
-  clear();
-  lastState-=1;
-  state=lastState;
-  isDrawn=false;
+    clear();
+    lastState-=1;
+    state=lastState;
+    isDrawn=false;
   }
 }
 function changeState(){
-  if((lastState === 1)&&(dPoints.length<3)){
+  if( (lastState === 1) && (dPoints.length<3) ){
     return;
   }
   clear();
@@ -201,12 +199,14 @@ function allHype(){
           let denom=(x2-x1);
           let slope= (y2-y1)/denom;
           let b=y1-(slope*x1);
-          if (denom===0){denom+=0.00001;}
+          if (denom===0){
+            denom+=0.00001;
+          }
           strokeWeight(1);
           line (HSIZE,(HSIZE*slope)+b,0,b);
           lines.push([slope,b,i,j]);
-        }
-      }
+         }
+     }
 }
 function medHype(){
   //clear each time.
@@ -222,15 +222,15 @@ function medHype(){
           let yLine=(lines[i][0]*xTest)+lines[i][1];
           if (yLine<=yTest){
             above+=1;//point above line
-            }
+          }
           else{
             below+=1;}
+          }
         }
-    }
-    if ((above>=threshold)&&(below>=threshold)){
-        strokeWeight(1);
-        line(HSIZE,(HSIZE*lines[i][0])+lines[i][1],0,lines[i][1]);
-        medLines.push(lines[i]);
+        if ((above>=threshold)&&(below>=threshold)){
+            strokeWeight(1);
+            line(HSIZE,(HSIZE*lines[i][0])+lines[i][1],0,lines[i][1]);
+            medLines.push(lines[i]);
         }
   }
 }
@@ -239,57 +239,55 @@ function allAbHype(){
   for (let i=0;i<dPoints.length;i++){    
        for (let j=0; j<dPoints.length;++j){ //a little higher
           if (i!=j){
-          let x1=dPoints[i][0];
-          let y1=dPoints[i][1];
-          let x2=dPoints[j][0];
-          let y2=dPoints[j][1]+50;
-          let denom=(x2-x1);
-          let slope= (y2-y1)/denom;
-          let b=y1-(slope*x1);
-          if (denom===0)
-          {denom+=0.00001;}
-          strokeWeight(1);
-          line (HSIZE,(HSIZE*slope)+b,0,b);
-          linesAb.push([slope,b,i,j]);         
-          for (let q=2;q<5;++q){
-            y2=dPoints[j][1]+(50*q);
-            slope= (y2-y1)/denom;
-            b=y1-(slope*x1);
+            let x1=dPoints[i][0];
+            let y1=dPoints[i][1];
+            let x2=dPoints[j][0];
+            let y2=dPoints[j][1]+50;
+            let denom=(x2-x1);
+            let slope= (y2-y1)/denom;
+            let b=y1-(slope*x1);
+            if (denom===0){
+              denom+=0.00001;}
             strokeWeight(1);
             line (HSIZE,(HSIZE*slope)+b,0,b);
-            linesAb.push([slope,b,i,j]);
-          }
-          }
-                  
-     }
+            linesAb.push([slope,b,i,j]);         
+            for (let q=2;q<5;++q){
+              y2=dPoints[j][1]+(50*q);
+              slope= (y2-y1)/denom;
+              b=y1-(slope*x1);
+              strokeWeight(1);
+              line (HSIZE,(HSIZE*slope)+b,0,b);
+              linesAb.push([slope,b,i,j]);
+            }
+          }         
+        }
     
       for (let j=0; j<dPoints.length;++j){ //a little lower
           if (i!=j){
-          let x1=dPoints[i][0];
-          let y1=dPoints[i][1];
-          let x2=dPoints[j][0];
-          let y2=dPoints[j][1]-50;
-          let denom=(x2-x1);
-          let slope= (y2-y1)/denom;
-          let b=y1-(slope*x1);
-          if (denom===0)
-          {denom+=0.00001;}
-          strokeWeight(1);
-          line (HSIZE,(HSIZE*slope)+b,0,b);
-          linesAb.push([slope,b,i,j]);         
-          for (let q=2;q<5;++q){
-            y2=dPoints[j][1]-(50*q);
-            slope= (y2-y1)/denom;
-            b=y1-(slope*x1);
+            let x1=dPoints[i][0];
+            let y1=dPoints[i][1];
+            let x2=dPoints[j][0];
+            let y2=dPoints[j][1]-50;
+            let denom=(x2-x1);
+            let slope= (y2-y1)/denom;
+            let b=y1-(slope*x1);
+            if (denom===0){
+              denom+=0.00001;}
             strokeWeight(1);
             line (HSIZE,(HSIZE*slope)+b,0,b);
-            linesAb.push([slope,b,i,j]);
+            linesAb.push([slope,b,i,j]);         
+            for (let q=2;q<5;++q){
+              y2=dPoints[j][1]-(50*q);
+              slope= (y2-y1)/denom;
+              b=y1-(slope*x1);
+              strokeWeight(1);
+              line (HSIZE,(HSIZE*slope)+b,0,b);
+              linesAb.push([slope,b,i,j]);
+            }
           }
-          }
-      }            
+        }            
      }
-
-}
+ }
 function medAbHype(){
   medLinesAb=[];
   for (let i=0;i<linesAb.length;++i){
@@ -313,37 +311,35 @@ function medAbHype(){
         line(HSIZE,(HSIZE*linesAb[i][0])+linesAb[i][1],0,linesAb[i][1]);
         medLinesAb.push(linesAb[i]);
       }
-    }
+   }
 }
 function findInCenters(){
   radiusIC=[];
   inCenter=[];
   let count=0;
-    for (let i=0;i<medLines.length-2;i++){
+  for (let i=0;i<medLines.length-2;i++){
       for (let h=i+1;(h<medLines.length);h++){
           for (let k=h+1;(k<medLines.length );k++){
             count+=1;
-            if (count>50000){//controls runaway memory
-              //console.log("S*** Sandwich")
+            if (count>50000){//control for edge case memory crash
               return;
             }
-              let point1=findInter(medLines[i],medLines[h]);
-              let point2=findInter(medLines[i],medLines[k]);
-              let point3=findInter(medLines[h],medLines[k]);
+            let point1=findInter(medLines[i],medLines[h]);
+            let point2=findInter(medLines[i],medLines[k]);
+            let point3=findInter(medLines[h],medLines[k]);
             inCenterSub(point1,point2,point3);
-          }
-        } 
-    }
+           }
+      } 
+  }
 }
 function findInter(line1 , line2){
   let a=line1[0]; //slope
   let b=line2[0];
   let c=line1[1]; //inter
   let d=line2[1]; //
-  if ((a-b) === 0)
-    {
+  if ((a-b) === 0){
       a+=0.0000001;
-    }
+  }
   let x=((d-c)/(a-b)).toFixed(8);
   let y=((d-c)/(a-b)).toFixed(8);
   y=a*y;
@@ -360,10 +356,9 @@ function inCenterSub(point1, point2, point3){
   let yCoord=ySum/(side1+side2+side3);
   let distanceCal=distanceICR(point1,point2,[xCoord,yCoord]);
   if (distanceCal>0){//bug with calculating intersections
-  radiusIC.push(distanceCal);
-  inCenter.push([xCoord,yCoord]);  
+    radiusIC.push(distanceCal);
+    inCenter.push([xCoord,yCoord]);  
   }
-  
 }
 function displaySingleInCenter(){
   strokeWeight(1);
@@ -410,22 +405,20 @@ function drawInCenters(){
   strokeWeight(5);
   stroke('green');
   for (let i=0;i<inCenter.length;++i){
-      point(inCenter[i][0],inCenter[i][1]);
-    }
+    point(inCenter[i][0],inCenter[i][1]);
+  }
 }
 function findFurthestE(){
- for (let i=0; i<inCenter.length;i++){
-     for (let j=0; j<medLines.length;++j){
-         let localDist=distLineE(medLines[j],inCenter[i]);
-         if (localDist>maxDist)
-           {
-             maxDist=localDist;
-             yolk=inCenter[i];
-           }
-       }
-
-   }
-}
+  for (let i=0; i<inCenter.length;i++){
+    for (let j=0; j<medLines.length;++j){
+      let localDist=distLineE(medLines[j],inCenter[i]);
+      if (localDist>maxDist){
+        maxDist=localDist;
+        yolk=inCenter[i];
+      }
+    }
+  }
+ }
 function distLineE(line, point){
   let x0=point[0];
   let y0=point[1];
@@ -437,8 +430,8 @@ function distLineE(line, point){
   return (num/denom);
 }
 function drawYolk(){
-      stroke('green');
-      point(yolk[0], yolk[1]);
-      noFill();
-      circle(yolk[0], yolk[1], maxDist*2)
+  stroke('green');
+  point(yolk[0], yolk[1]);
+  noFill();
+  circle(yolk[0], yolk[1], maxDist*2)
 }
