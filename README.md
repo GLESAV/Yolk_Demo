@@ -93,11 +93,32 @@ https://glesav.github.io/Yolk_Demo/
 
 DEMO NOTES:
 
-This demo is restricted for the case for n points being odd and the point set forced into general position. There are adjustments to account for this in [1].
+Use the **Next / Back** buttons (or the ← / → arrow keys) to walk through the
+construction one stage at a time. Click in the canvas to place a point; click a
+point again to remove it. **Random** drops a sample set and **Reset** (or R)
+clears everything. The sidebar shows the live count of median hyperplanes and,
+on the final step, the yolk radius.
 
-The demo only counts for B=2. That is, when I accounted for the median hyperplanes bounded by one point B=1, the demo would run slowly and be restriceted to placing only 3 points. B=1 is shown for several arbitrary points, but their values not go into the calculation of the yolk at the end,
+This demo assumes an odd number of points in general position (the adjustments
+for even counts and degeneracies are given in [1]; the sidebar warns when an
+even count is placed).
 
-The demo may crash if you place 8-10 points, as the memory may be overwhelmed. 
+The yolk itself is computed from the B=2 extremal median hyperplanes. For each
+3-tuple of them the incenter and three excenters give the candidate set E (the
+points equidistant from three median lines); the yolk center is the candidate
+minimizing the distance to the *furthest* median line — a min-max, not a plain
+maximum. A convex sub-gradient refinement then snaps the center to the exact
+optimum, which also keeps the answer correct when the candidate enumeration is
+capped on large inputs.
+
+The B=1 hyperplanes (pinned to a single point) are shown as an illustrative fan
+of median lines but, as in the original write-up, are not folded into the final
+yolk computation.
+
+Performance: the construction is now built in O(n^2) median-line work plus the
+capped candidate pass, recomputed only on demand (not every frame), so it stays
+smooth well past the ~8 points that used to exhaust memory in the first version
+— it handles dozens of points comfortably.
 
 # State of the Art
 

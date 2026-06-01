@@ -1,12 +1,64 @@
-<!DOCTYPE html><html lang="en"><head>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>The Yolk — interactive demo</title>
+    <link rel="stylesheet" type="text/css" href="style.css" />
     <script src="p5.js"></script>
-    <script src="p5.sound.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="style.css">
-    <meta charset="utf-8">
-
   </head>
   <body>
-    <script src="sketch.js"></script>
-  
+    <main id="app">
+      <header id="masthead">
+        <h1>The&nbsp;Yolk</h1>
+        <p class="subtitle">
+          The smallest ball intersecting every median hyperplane —
+          Tovey's polynomial-time algorithm, in 2D.
+        </p>
+      </header>
 
-</body></html>
+      <section id="stage">
+        <div id="canvas-holder"></div>
+
+        <div id="sidebar">
+          <div class="step-head">
+            <span id="step-index">Step 1 / 10</span>
+          </div>
+          <p id="step-text">Click in the canvas to place points (odd count, ≥ 3).</p>
+
+          <div class="controls">
+            <button id="btn-back" type="button" title="←">Back</button>
+            <button id="btn-next" type="button" class="primary" title="→">Next</button>
+          </div>
+          <div class="controls">
+            <button id="btn-random" type="button">Random</button>
+            <button id="btn-clear" type="button">Clear</button>
+            <button id="btn-reset" type="button" title="R">Reset</button>
+          </div>
+
+          <div class="meters">
+            <span id="count" class="pill">0 pts</span>
+            <span id="stat" class="stat"></span>
+          </div>
+
+          <ul class="legend">
+            <li><span class="swatch" style="background:#ffd23f"></span>data points</li>
+            <li><span class="swatch" style="background:#5aa9ff"></span>median hyperplane (B = 2)</li>
+            <li><span class="swatch" style="background:#ff6b8b"></span>median hyperplane (B = 1)</li>
+            <li><span class="swatch" style="background:#2ee6a6"></span>candidate centers / yolk</li>
+          </ul>
+
+          <p class="hint">
+            Click a point again to remove it. Use ← / → to step, R to reset.
+          </p>
+        </div>
+      </section>
+
+      <footer id="credits">
+        2D yolk demo · see <code>README.md</code> for the math and references.
+      </footer>
+    </main>
+
+    <script src="sketch.js"></script>
+  </body>
+</html>
