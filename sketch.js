@@ -168,19 +168,20 @@ const Geo = {
  * The demo — p5 instance mode.
  * ------------------------------------------------------------------ */
 
-// Step descriptions shown in the header. Index === step number.
+// Step descriptions shown in the sidebar. Index === step number. Each one
+// explains both what is drawn and why that stage matters.
 const STEPS = [
-  'Click in the canvas to place points (odd count, ≥ 3).',
-  'Click in the canvas to place points (odd count, ≥ 3).',
-  'All extremal hyperplanes pinned to 2 points (B = 2).',
-  'Median hyperplanes among them — each side holds ≥ half the points.',
-  'Illustrative hyperplanes pinned to a single point (B = 1).',
-  'Median hyperplanes among the B = 1 family.',
-  'Median hyperplanes: B = 2 (blue) overlaid with B = 1 (red).',
-  'Candidate centers: incenter + excenters of every triple of median lines.',
-  'The yolk center lives inside this candidate set E.',
-  'Yolk = candidate minimizing the distance to the FURTHEST median line.',
-  'Done — the yolk is the smallest ball meeting every median hyperplane.',
+  'Click anywhere to drop points — use an odd number, at least 3. Click a point again to remove it. Think of these as the “voters” whose middle we want to find.',
+  'Click anywhere to drop points — use an odd number, at least 3. Click a point again to remove it. Think of these as the “voters” whose middle we want to find.',
+  'Every pair of points defines a line (a hyperplane in 2D). This is the full B = 2 family — all lines pinned to two points. Most of them aren’t special yet.',
+  'A line is a median hyperplane when each side holds at least half of the points. Highlighted in blue are the B = 2 lines that pass that test — the ones that constrain the yolk.',
+  'A hyperplane can also be pinned to a single point and rotated freely — the B = 1 family. Shown is an illustrative fan of such lines through each point.',
+  'Now keep only the B = 1 lines that are also median: each side still holds at least half the points. The full theory uses these too, alongside the B = 2 lines.',
+  'Both families of median hyperplanes at once — B = 2 in blue, B = 1 in red. The yolk is the smallest ball that touches every one of them.',
+  'Each triple of median lines forms a triangle. Its incenter and three excenters are the points equidistant from all three lines. Collecting these over every triple gives the candidate set E.',
+  'Tovey proves the yolk’s center is always one of these candidates — so the search shrinks from the whole plane to this finite set E.',
+  'For each candidate, measure the distance to its furthest median line. The candidate with the smallest such distance is the yolk center, and that distance is the radius — a min-max, not a plain maximum.',
+  'The yolk: the smallest ball meeting every median hyperplane — the geometric “middle” of the point set. Press Next or Reset to try another configuration.',
 ];
 const LAST_STEP = STEPS.length - 1;
 

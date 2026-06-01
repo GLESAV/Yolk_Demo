@@ -1,137 +1,190 @@
-# ___The Yolk___
+# _The Yolk_
 
-### What is a yolk?
-### Definitions
-### Constraints and KKT
-### Complexity in R^2
-### Demo
-### State of the Art
+An interactive demonstration of the 2-dimensional case of Craig Tovey's
+polynomial-time algorithm for computing the **yolk** — the smallest ball that
+intersects every median hyperplane of a point set.
 
+**Live demo:** https://glesav.github.io/Yolk_Demo/
 
+### Contents
 
+- [What is a yolk?](#what-is-a-yolk)
+- [Definitions](#definitions)
+- [Constraints and KKT conditions](#constraints-and-karush-kuhn-tucker-conditions)
+- [Complexity in R^2](#complexity-in-r2)
+- [The demo](#the-demo)
+- [State of the art](#state-of-the-art)
+- [References](#references)
 
 # What is a yolk?
 
-Given a category that contains qualitative information, finding the middle value is straightforward. If there are an odd number of items within the category, you can sort them and take the middle value (the median). If it is even, we can find the middle two values, and determine some compromise (usually averaging them) to find this middle. 
+Given a single category of qualitative information, finding the middle value is
+straightforward. If there are an odd number of items in the category, you can
+sort them and take the middle value (the median). If there are an even number,
+you can find the middle two values and pick some compromise between them
+(usually their average).
 
-When we extend to multiple categories, finding our middle value within a (policy) space becomes difficult. When each category is represented within in its own dimension, there does not always exist a single point that satisfies a "middleness" property between all categories. The compromise is the "yolk".
+When we extend to multiple categories, finding the middle value within a
+(policy) space becomes difficult. When each category is represented in its own
+dimension, there does not always exist a single point that satisfies a
+"middleness" property across all categories simultaneously. The compromise is
+the **yolk**.
 
-Given m categories of interrelated yet distinct values, a set of points can be graphed into the space R^m. The yolk can be used to find the middle value region between the categories.
+Given `m` categories of interrelated yet distinct values, a set of points can be
+plotted in the space `R^m`. The yolk identifies the middle-value region between
+the categories.
 
-"The yolk [...] is a key solution concept in the Eucleadean spatial model as the region of policies where a dynamic voting game will tend to reside [...] it is the smallest ball intersecting all median hyperplanes [of a set]." [1].
+> "The yolk [...] is a key solution concept in the Euclidean spatial model as
+> the region of policies where a dynamic voting game will tend to reside [...]
+> it is the smallest ball intersecting all median hyperplanes [of a set]." [1]
 
-A hyperplane is a subspace that is one dimension less than the original or "ambient" space. in R^3, the hyperplane is a plane. in R^2, it is a line. A hyperplane partitions the space.
+A **hyperplane** is a subspace one dimension lower than the original ("ambient")
+space; in `R^3` it is a plane, and in `R^2` it is a line. A hyperplane
+partitions the space into two halves.
 
-The median hyperplane is one such that partitions the space whereby each closed half space has at least half of the number of points.
+A **median hyperplane** is one that partitions the space so that each closed
+half-space contains at least half of the points.
 
-There are an infinite number of median hyperplanes that can divide a set of points. Finding the yolk is NP-hard for arbitrary dimensions. 
-
-Craig Tovey in [1] finds and proves a polynomial time algorithm for finding the yolk in a fixed dimension. This page devouts its purpose to exploring the 2-dimensional case in particular.
-
+There are infinitely many median hyperplanes for a given set of points, and
+finding the yolk is NP-hard in an arbitrary number of dimensions. In [1], Tovey
+gives — and proves — a polynomial-time algorithm for the yolk in any *fixed*
+dimension. This page explores the 2-dimensional case in particular.
 
 # Definitions
 
-* Yolk: Smallest ball intersecting all median hyperplanes
-
-* Hyperplane: A subspace that is one less dimension of its ambient space dividing its ambient space into two halfspaces.
-
-* Median Split: Any pair of subsets such that the union of them is the complete set, and the cardinality of each subset is at least half of the complete set
-
-* Median Hyperplane: A hyperplane that divides the points in a space such that the subsets of the space are consistent with a median split.
-
-* Extremal Median Hyperplane: A median hyperlane that contains m points of the set in R^m.
-
-* Binding points: Points of the set that are on a hyperplane.
-
-* Affine Combination[2]: A linear combinations of distinct points such that the linear combinations sum to one.
-
-* Affine Set: A set containing every affine combination of the points within it.
-
-* Affine Hull: The smallest affine set that contains all of the set of points.
-
-* Determining Hyperplane: A hyperplane that contains points within the set (<=m) containing the Aff(B).
+- **Yolk:** the smallest ball intersecting all median hyperplanes.
+- **Hyperplane:** a subspace one dimension lower than its ambient space,
+  dividing that space into two half-spaces.
+- **Median split:** any pair of subsets whose union is the complete set and each
+  of whose cardinality is at least half of the complete set.
+- **Median hyperplane:** a hyperplane that divides the points so that the two
+  resulting subsets form a median split.
+- **Extremal median hyperplane:** a median hyperplane that contains `m` points of
+  the set in `R^m`.
+- **Binding points:** points of the set that lie on a hyperplane.
+- **Affine combination** [2]: a linear combination of distinct points whose
+  coefficients sum to one.
+- **Affine set:** a set containing every affine combination of the points within
+  it.
+- **Affine hull:** the smallest affine set containing all of a set of points.
+- **Determining hyperplane:** a hyperplane containing the points of the set
+  (at most `m` of them) that span `Aff(B)`.
 
 # Constraints and Karush-Kuhn-Tucker conditions
 
-A great deal of Tovey's paper is its handling of the contraints involving the yolk problem. In his proof leading to his threorem he makes several key observations (and in his own words, gets "lucky" along the way):
+A great deal of Tovey's paper concerns the constraints of the yolk problem. In
+the proof leading to his theorem he makes several key observations (and, in his
+own words, gets "lucky" along the way):
 
-* Finding the yolk can be framed as a non linear optimization problem to maximize the distance from all median hyperplanes furthest from an arbitrary point.
-
-* This maximization can be adjusted to search through the exponentially large set of all median hyperplanes in refererence to the origin.
-
-* Despite there being an infinite number of median hyperplanes, each of them share identical sets of solutions "which is only polynomially large".
-
-* This reduces the constraints to just one that is quadratic for which KKT conditions are applied.
-
-* Karush-Kuhn-Tucker conditions allow for inequality constraints to be treated for in an optimizaiton problem
-
-* Karush-Kuhn-Tucker Conditions reduce the consideration from an infinite set to a finite but exponentially large collection of polynomial sized sets of hyperplanes.
-
-* KKT conditions allow the problem to focus on those "determining hyperplanes": the bounded (by binding points) hyperplanes that are normal to a given a vector from the origin. There are a finite (yet still polynomial) number of these dermmining hyperplanes.
-
-* These constraints allow for Theorem 1 and Corollary 1
+- Finding the yolk can be framed as a nonlinear optimization problem: minimize,
+  over candidate centers, the distance to the *furthest* median hyperplane.
+- This optimization can be reformulated to search through the exponentially large
+  set of all median hyperplanes relative to the origin.
+- Despite there being infinitely many median hyperplanes, they share identical
+  sets of solutions "which [are] only polynomially large".
+- This reduces the constraints to a single quadratic one, to which the KKT
+  conditions can be applied.
+- The Karush-Kuhn-Tucker conditions let inequality constraints be handled within
+  an optimization problem.
+- They reduce the search from an infinite set to a finite (though exponentially
+  large) collection of polynomially sized sets of hyperplanes.
+- They let the problem focus on the **determining hyperplanes**: the hyperplanes
+  bounded by binding points and normal to a given vector from the origin. There
+  are a finite (and polynomial) number of these.
+- Together, these constraints yield Theorem 1 and Corollary 1.
 
 # Complexity in R^2
 
-*Theorem 1: The determining median hyperplanes suffice to determine the radius of the 0-centered yolk*
+> **Theorem 1.** The determining median hyperplanes suffice to determine the
+> radius of the 0-centered yolk.
 
-*Corollary 1: The radius of r(x) of the x centered yolk can be determined in polynomial time O(n^(m+1) for any fixed dimension m*
+> **Corollary 1.** The radius `r(x)` of the `x`-centered yolk can be determined
+> in polynomial time `O(n^(m+1))` for any fixed dimension `m`.
 
-For the 2-dimensional case, finding the yolk can be done in O(n^3). This is because there are n choose 1 plus n choose 2 ways to select from median hyperplanes that are bounded by either 1 or 2 points in the set. This is O(n^2) Then, checking whether the hyperplane is median can be done in linear time for a total of O(n^3).
+In the 2-dimensional case, finding the determining median hyperplanes can be
+done in `O(n^3)`. There are `C(n,1) + C(n,2)` ways to choose a hyperplane bounded
+by either 1 or 2 points of the set — which is `O(n^2)` candidates — and checking
+whether a given hyperplane is median takes linear time, for a total of `O(n^3)`.
 
-*Theorem 2. For any fixed m, the yolk of n nondegenerate points may be computed in polynomial time O(n^(m+1)^2)*
+> **Theorem 2.** For any fixed `m`, the yolk of `n` nondegenerate points can be
+> computed in polynomial time `O(n^((m+1)^2))`.
 
-___For R^2___
+### For R^2
 
-First: Find the determining hyperplanes. This is done by counting the combinations of bounded median hyperplanes and can be accomplished in O(n^2)
+1. **Find the determining hyperplanes.** Count the bounded median-hyperplane
+   combinations; this is `O(n^2)`.
 
-Second: For each 3-tuple of determing hyperplanes, compute the set of points equidistant from the affine hulls of the hyperplanes. The dimension is fixed, and this is done in constant time. Tovey calls this set of points E and cites |E|=O(n^m(m+1). This means finding |E| is O(n^6).
+2. **Build the candidate set `E`.** For each 3-tuple of determining hyperplanes,
+   compute the points equidistant from the affine hulls of the three
+   hyperplanes. The dimension is fixed, so each is found in constant time. Tovey
+   calls this set `E` and bounds it by `|E| = O(n^(m(m+1)))`, which is `O(n^6)`
+   for `m = 2`.
 
-Third: The yolk center is in E. Go through each point e in E and find the distance between it and the furthest median hyperplane. The smallest such e is the center of the yolk, and that smallest maximum is the radius of the yolk: the smallest radius touching all median hyperplanes. By Corollary 1, this takes O(|E|n^(m+1))= O(n^m(m+1) n^(m+1))= )(n^(m+1)^2). Again O(n^6).
+3. **Locate the yolk.** The yolk center lies in `E`. For each point `e` in `E`,
+   find the distance to the furthest median hyperplane; the `e` minimizing that
+   distance is the yolk center, and that minimized maximum is the yolk radius —
+   the smallest radius touching every median hyperplane. By Corollary 1 this
+   costs `O(|E| · n^(m+1)) = O(n^(m(m+1)) · n^(m+1)) = O(n^((m+1)^2))`, i.e.
+   `O(n^9)` for `m = 2`.
 
-https://glesav.github.io/Yolk_Demo/
+# The demo
 
-DEMO NOTES:
+The demo walks through the construction one stage at a time and lets you build
+your own point sets.
 
-Use the **Next / Back** buttons (or the ← / → arrow keys) to walk through the
-construction one stage at a time. Click in the canvas to place a point; click a
-point again to remove it. **Random** drops a sample set and **Reset** (or R)
-clears everything. The sidebar shows the live count of median hyperplanes and,
-on the final step, the yolk radius.
+**Controls**
 
-This demo assumes an odd number of points in general position (the adjustments
-for even counts and degeneracies are given in [1]; the sidebar warns when an
-even count is placed).
+- Click in the canvas to place a point; click a point again to remove it.
+- **Next / Back** (or the ← / → arrow keys) step through the construction.
+- **Random** drops a sample set; **Reset** (or `R`) clears everything; **Clear**
+  removes the points but keeps you on the input step.
+- The sidebar shows the live count of median hyperplanes and, on the final step,
+  the yolk radius.
 
-The yolk itself is computed from the B=2 extremal median hyperplanes. For each
-3-tuple of them the incenter and three excenters give the candidate set E (the
-points equidistant from three median lines); the yolk center is the candidate
-minimizing the distance to the *furthest* median line — a min-max, not a plain
-maximum. A convex sub-gradient refinement then snaps the center to the exact
-optimum, which also keeps the answer correct when the candidate enumeration is
-capped on large inputs.
+**Running it locally**
 
-The B=1 hyperplanes (pinned to a single point) are shown as an illustrative fan
-of median lines but, as in the original write-up, are not folded into the final
-yolk computation.
+It's a static page with no build step. Open `index.html` directly in a browser,
+or serve the folder (e.g. `python3 -m http.server`) and visit
+`http://localhost:8000`.
 
-Performance: the construction is now built in O(n^2) median-line work plus the
-capped candidate pass, recomputed only on demand (not every frame), so it stays
-smooth well past the ~8 points that used to exhaust memory in the first version
-— it handles dozens of points comfortably.
+**Notes and simplifications**
 
-# State of the Art
+- The demo assumes an odd number of points in general position. The adjustments
+  for even counts and degenerate configurations are given in [1]; the sidebar
+  warns when an even count is placed.
+- The yolk is computed from the `B = 2` extremal median hyperplanes (those pinned
+  to two points). For each 3-tuple of them, the triangle's incenter and three
+  excenters give the candidate set `E` — the points equidistant from three median
+  lines. The yolk center is the candidate that *minimizes* the distance to the
+  *furthest* median line: a min-max, not a plain maximum. A convex sub-gradient
+  refinement then snaps the center to the exact optimum, which also keeps the
+  answer correct when the candidate enumeration is capped on large inputs.
+- The `B = 1` hyperplanes (pinned to a single point) are drawn as an illustrative
+  fan of median lines but, as in the original write-up, are not folded into the
+  final yolk computation.
+- **Performance.** The construction is built from `O(n^2)` median-line work plus
+  the capped candidate pass, and is recomputed only on demand rather than every
+  frame. It stays smooth well past the handful of points that exhausted memory in
+  the first version, handling dozens of points comfortably.
 
-Significant progress has been made in the past 30 years on the yolk problem. [4] Cites the 2-dimensional case for the yolk can be solved in O(n log n). This is done by exploiting relations of duality and the zones induced by the set of hyperplanes.
+# State of the art
 
+Significant progress has been made on the yolk problem over the past 30 years.
+[4] shows that the 2-dimensional yolk can be solved in `O(n log n)` by exploiting
+duality and the zones induced by the set of hyperplanes.
 
 # References
 
-[1] Craig Tovey, "A polynomial-time algorithm for computing the yolk in fixed dimension" in Mathematical Programming 57 March, 1992. pp.259-277.
+[1] Craig Tovey, "A polynomial-time algorithm for computing the yolk in fixed
+dimension," *Mathematical Programming* 57, March 1992, pp. 259–277.
 
-[2] Stephen Boyd, Lieven VAndenberghe, "Convex Optimization". Cambridge University Press. 2009. pp. 21-55.
+[2] Stephen Boyd, Lieven Vandenberghe, *Convex Optimization*, Cambridge
+University Press, 2009, pp. 21–55.
 
-[3] Geoff Gordon, Ryan Tibshirani. "Karush-Kuhn-Tucker conditions". Optimization 1--725. Avaialble: https://www.cs.cmu.edu/~ggordon/10725-F12/slides/16-kkt.pdf
+[3] Geoff Gordon, Ryan Tibshirani, "Karush-Kuhn-Tucker conditions,"
+Optimization 10-725. Available:
+https://www.cs.cmu.edu/~ggordon/10725-F12/slides/16-kkt.pdf
 
-[4] Timothy M. Chan, Sariel Har-Peled, Mitchell Jones. Optimal Algorithms for Geometric Centers and Depth May, 2021. Available: https://arxiv.org/pdf/1912.01639.pdf
-
+[4] Timothy M. Chan, Sariel Har-Peled, Mitchell Jones, "Optimal Algorithms for
+Geometric Centers and Depth," May 2021. Available:
+https://arxiv.org/pdf/1912.01639.pdf

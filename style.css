@@ -91,8 +91,9 @@ body {
 
 #step-text {
   margin: 10px 0 16px;
-  min-height: 48px;
-  font-size: 15px;
+  min-height: 120px;
+  font-size: 14.5px;
+  color: #cdd6ea;
 }
 
 .controls {
