@@ -143,9 +143,9 @@ your own point sets.
 
 **Running it locally**
 
-It's a static page with no build step. Open `index.html` directly in a browser,
-or serve the folder (e.g. `python3 -m http.server`) and visit
-`http://localhost:8000`.
+Just **double-click `index.html`** — it opens straight in your browser. No
+server, no build step, no install. (Or skip that entirely and use the
+[live demo](https://glesav.github.io/Yolk_Demo/).)
 
 **Notes and simplifications**
 
